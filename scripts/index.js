@@ -14,19 +14,19 @@ const deleteCard = (cardElement) => {
     cardElement.remove();
 };
 
-const createCard = ({ name, link }) => {
+const createCard = ({ name, link }, deleteCardCallback) => {
     const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
-    cardElement.querySelector('.card__image').src = link;
-    cardElement.querySelector('.card__image').alt = name;
+    const cardImage = cardElement.querySelector('.card__image');
+    cardImage.src = link;
+    cardImage.alt = name;
     cardElement.querySelector('.card__title').textContent = name;
+    cardElement.querySelector('.card__delete-button').addEventListener('click', () => deleteCardCallback(cardElement));
 
-    
-    cardElement.querySelector('.card__delete-button').addEventListener('click', () => deleteCard(cardElement));
     return cardElement;
 };
 
 const renderInitialCards = (cards) => {
-    cards.forEach((card) => placesList.append(createCard(card)));
+    cards.forEach((card) => placesList.append(createCard(card, deleteCard)));
 };
 
 renderInitialCards(initialCards);
